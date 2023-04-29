@@ -1,0 +1,7 @@
+# SOURCE: https://eslint.org/docs/latest/user-guide/configuring/ignoring-code#the-eslintignore-file
+# dot-files ignored by default
+!/.prettierrc.js
+
+# Native 
+/android/
+/ios/
