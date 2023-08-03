@@ -15,6 +15,7 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.rn-chat-app",
       "supportsTablet": true
     },
     "android": {
@@ -35,6 +36,11 @@
           }
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "7e55c504-b6ff-4ada-b251-880a983f3956"
+      }
+    }
   }
 }
