@@ -1,23 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import { Provider as PaperProvider } from 'react-native-paper';
+import { AppStackNavigator } from './src/navigators/AppStackNavigator/AppStackNavigator';
+import {
+  SafeAreaProvider,
+  initialWindowMetrics,
+} from 'react-native-safe-area-context';
+import { ApolloProvider } from '@apollo/client';
+import { apolloClient } from './src/services/apollo/apolloService';
 
 export default function App() {
   return (
-    <PaperProvider>
-      <View style={styles.container}>
-        <Text>Open up App.tsx to start working on your app!</Text>
-        <StatusBar style="auto" />
-      </View>
-    </PaperProvider>
+    <ApolloProvider client={apolloClient}>
+      <PaperProvider>
+        <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+          <NavigationContainer>
+            <AppStackNavigator />
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </PaperProvider>
+    </ApolloProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
