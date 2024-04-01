@@ -35,7 +35,8 @@
             "flipper": true
           }
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "extra": {
       "eas": {
