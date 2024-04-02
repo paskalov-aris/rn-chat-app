@@ -7,8 +7,11 @@ import {
 } from 'react-native-safe-area-context';
 import { ApolloProvider } from '@apollo/client';
 import { apolloClient } from './src/services/apollo/apolloService';
+import { useApolloClientDevTools } from '@dev-plugins/apollo-client';
 
 export default function App() {
+  useApolloClientDevTools(apolloClient);
+
   return (
     <ApolloProvider client={apolloClient}>
       <PaperProvider>
