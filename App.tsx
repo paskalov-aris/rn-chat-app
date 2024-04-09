@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider as PaperProvider } from 'react-native-paper';
-import { AppStackNavigator } from './src/navigators/AppStackNavigator/AppStackNavigator';
+import { AppStackNavigator } from './src/navigators/AppStackNavigator';
 import {
   SafeAreaProvider,
   initialWindowMetrics,
