@@ -1,10 +1,10 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { LoginScreen } from '../../screens/AuthScreens/LoginScreen/LoginScreen';
+import { LoginScreen } from '../screens/AuthScreens/LoginScreen/LoginScreen';
 import { AppStackParamList } from './appStackNavigator.types';
-import { HomeScreen } from '../../screens/HomeScreen/HomeScreen';
+import { HomeScreen } from '../screens/HomeScreen/HomeScreen';
 import { LOGIN_SCREEN_OPTIONS } from './appStackNavigator.settings';
 import { useReactiveVar } from '@apollo/client';
-import { accessTokenVar } from '../../services/apollo/cache';
+import { accessTokenVar } from '../services/apollo/cache';
 
 const NativeStack = createNativeStackNavigator<AppStackParamList>();
 
