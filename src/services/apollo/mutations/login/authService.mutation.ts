@@ -6,7 +6,7 @@ export const LOGIN = gql`
       user {
         username
       }
-      access_token
+      accessToken
     }
   }
 `;

@@ -56,17 +56,17 @@ export const LoginScreen = () => {
   };
 
   const setAccessTokenToSecureStorage = useCallback(async () => {
-    const access_token = data.login.access_token;
+    const accessToken = data.login.accessToken;
 
-    if (access_token) {
-      await secureStoreService.setSecureStoreItem('token', access_token);
+    if (accessToken) {
+      await secureStoreService.setSecureStoreItem('token', accessToken);
     }
   }, [data]);
 
   useEffect(() => {
     if (data) {
       setAccessTokenToSecureStorage();
-      accessTokenVar(data.login.access_token);
+      accessTokenVar(data.login.accessToken);
     }
   }, [data, setAccessTokenToSecureStorage]);
 

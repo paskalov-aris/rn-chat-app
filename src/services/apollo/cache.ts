@@ -6,7 +6,7 @@ export const cache: InMemoryCache = new InMemoryCache({
   typePolicies: {
     LoginResponse: {
       fields: {
-        access_token: {
+        accessToken: {
           read() {
             return secureStoreService.getSecureStoreItem('token');
           },
