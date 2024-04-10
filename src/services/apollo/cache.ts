@@ -1,19 +1,5 @@
 import { InMemoryCache, makeVar } from '@apollo/client';
-import { EMPTY_STRING } from '../../constants/stubs';
-import { secureStoreService } from '../secureStore/secureStoreService';
 
-export const cache: InMemoryCache = new InMemoryCache({
-  typePolicies: {
-    LoginResponse: {
-      fields: {
-        accessToken: {
-          read() {
-            return secureStoreService.getSecureStoreItem('token');
-          },
-        },
-      },
-    },
-  },
-});
+export const cache: InMemoryCache = new InMemoryCache();
 
-export const accessTokenVar = makeVar(EMPTY_STRING);
+export const isUserLoggedInVar = makeVar(false);
