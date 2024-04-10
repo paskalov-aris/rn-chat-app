@@ -11,7 +11,7 @@ import { RefObject, useCallback, useEffect, useRef } from 'react';
 import { useMutation } from '@apollo/client';
 import { secureStoreService } from '../../../services/secureStore/secureStoreService';
 import { LOGIN } from '../../../services/apollo/mutations/login/authService.mutation';
-import { accessTokenVar } from '../../../services/apollo/cache';
+import { isUserLoggedInVar } from '../../../services/apollo/cache';
 
 // NOTE: show backend errors under input fields
 
@@ -56,7 +56,7 @@ export const LoginScreen = () => {
   };
 
   const setAccessTokenToSecureStorage = useCallback(async () => {
-    const accessToken = data.login.accessToken;
+    const accessToken = data?.login?.accessToken;
 
     if (accessToken) {
       await secureStoreService.setSecureStoreItem('token', accessToken);
@@ -64,9 +64,9 @@ export const LoginScreen = () => {
   }, [data]);
 
   useEffect(() => {
-    if (data) {
+    if (data?.login?.accessToken) {
       setAccessTokenToSecureStorage();
-      accessTokenVar(data.login.accessToken);
+      isUserLoggedInVar(true);
     }
   }, [data, setAccessTokenToSecureStorage]);
 
