@@ -1,22 +1,25 @@
 import { TextInput, View } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { styles } from './loginScreen.styles';
-import { LoginFieldNames, LoginFormData } from './loginScreen.types';
+import { LoginFieldNames, LoginFormData, User } from './loginScreen.types';
 import { Button, Text } from 'react-native-paper';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from './loginScreen.settings';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ControlledTextInput } from '../../../components/ControlledTextInput/ControlledTextInput';
-import { RefObject, useCallback, useEffect, useRef } from 'react';
-import { useMutation } from '@apollo/client';
-import { secureStoreService } from '../../../services/secureStore/secureStoreService';
+import { RefObject, useCallback, useRef } from 'react';
+import { useApolloClient, useMutation } from '@apollo/client';
 import { LOGIN } from '../../../services/apollo/mutations/login/authService.mutation';
 import { isUserLoggedInVar } from '../../../services/apollo/cache';
+import { CURRENT_USER } from '../../../services/apollo/queries/user/user.query';
+import { setAuthTokensToSecureStorage } from '../../../helpers/auth/auth';
 
 // NOTE: show backend errors under input fields
 
 export const LoginScreen = () => {
-  const [login, { data }] = useMutation(LOGIN);
+  const apolloClient = useApolloClient();
+
+  const [login] = useMutation(LOGIN);
 
   const {
     control,
@@ -38,11 +41,24 @@ export const LoginScreen = () => {
     passwordInputRef.current?.focus();
   }, [passwordInputRef]);
 
+  const setCurrentUserToCache = (user: User) => {
+    apolloClient.writeQuery({
+      query: CURRENT_USER,
+      data: {
+        currentUser: {
+          __typename: 'User',
+          id: user.id,
+          username: user.username,
+        },
+      },
+    });
+  };
+
   const handleSuccessfulSubmit = async () => {
     const { username, password } = getValues();
 
     try {
-      await login({
+      const response = await login({
         variables: {
           input: {
             username,
@@ -50,25 +66,19 @@ export const LoginScreen = () => {
           },
         },
       });
+
+      const { user, accessToken, refreshToken } = response.data.login;
+
+      setCurrentUserToCache(user);
+      setAuthTokensToSecureStorage({
+        refreshToken: refreshToken,
+        accessToken: accessToken,
+      });
+      isUserLoggedInVar(true);
     } catch (e) {
       console.error(e);
     }
   };
-
-  const setAccessTokenToSecureStorage = useCallback(async () => {
-    const accessToken = data?.login?.accessToken;
-
-    if (accessToken) {
-      await secureStoreService.setSecureStoreItem('token', accessToken);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (data?.login?.accessToken) {
-      setAccessTokenToSecureStorage();
-      isUserLoggedInVar(true);
-    }
-  }, [data, setAccessTokenToSecureStorage]);
 
   const handleLoginButtonPress = () => {
     handleSubmit(handleSuccessfulSubmit)();

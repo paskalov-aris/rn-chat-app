@@ -7,6 +7,7 @@ import {
 } from 'react-native-safe-area-context';
 import { ApolloProvider } from '@apollo/client';
 import { apolloClient } from './src/services/apollo/apolloService';
+import { navigationRef } from './src/navigators/RootNavigation';
 import { useApolloClientDevTools } from '@dev-plugins/apollo-client';
 
 export default function App() {
@@ -16,7 +17,7 @@ export default function App() {
     <ApolloProvider client={apolloClient}>
       <PaperProvider>
         <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-          <NavigationContainer>
+          <NavigationContainer ref={navigationRef}>
             <AppStackNavigator />
           </NavigationContainer>
         </SafeAreaProvider>
