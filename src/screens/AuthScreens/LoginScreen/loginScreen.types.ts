@@ -7,3 +7,8 @@ export interface LoginFormData {
   [LoginFieldNames.username]: string;
   [LoginFieldNames.password]: string;
 }
+
+export interface User {
+  id: number;
+  username: string;
+}
